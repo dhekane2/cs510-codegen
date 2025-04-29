@@ -161,4 +161,3 @@ if __name__ == '__main__':
     max_output_tokens = models[0].output_token_limit  # 1024
 
     main()
-
