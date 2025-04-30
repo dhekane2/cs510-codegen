@@ -183,7 +183,7 @@ if __name__ == '__main__':
     model = AutoModelForCausalLM.from_pretrained(
         args.checkpoint,
         torch_dtype=torch.float16,
-        # load_in_4bit=True,
+        load_in_4bit=True,
         low_cpu_mem_usage=True,
         trust_remote_code=True,
         device_map='auto',

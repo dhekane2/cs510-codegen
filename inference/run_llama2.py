@@ -9,6 +9,14 @@ from datasets import load_dataset, Dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from tenacity import retry, stop_after_attempt, wait_random_exponential
 
+from transformers import BitsAndBytesConfig
+
+bnb_config = BitsAndBytesConfig(
+    load_in_8bit=True,
+    llm_int8_threshold=6.0,
+    llm_int8_skip_modules=None,
+    llm_int8_enable_fp32_cpu_offload=True  # optional: enables CPU offload for some layers
+)
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
@@ -190,8 +198,9 @@ if __name__ == '__main__':
     )
     model = AutoModelForCausalLM.from_pretrained(
         args.checkpoint,
-        torch_dtype=torch.float16,
+        # torch_dtype=torch.float16,
         # load_in_4bit=True,
+        quantization_config = bnb_config,
         low_cpu_mem_usage=True,
         trust_remote_code=True,
         device_map='auto',
